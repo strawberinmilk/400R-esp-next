@@ -23,14 +23,14 @@ export const GlobalSnackbarProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   // CSSカスタムプロパティから色を取得
-  function getCssVar(name: string) {
+  const getCssVar = (name: string): string => {
     if (typeof window === "undefined") return "";
     return (
       getComputedStyle(document.documentElement)
         .getPropertyValue(name)
         .trim() || ""
     );
-  }
+  };
   const [primaryColor, setPrimaryColor] = useState<string>("");
 
   React.useEffect(() => {

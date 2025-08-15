@@ -5,18 +5,18 @@ import "@/css/_constants.scss";
  * footLight系の共通Snackbar表示フック
  * statusCode: 0ならprimary, それ以外はerror色
  */
-export function useSnackBar() {
+export const useSnackBar = () => {
   const { showSnackbar } = useGlobalSnackbar();
 
   // CSSカスタムプロパティから色を取得
-  function getCssVar(name: string) {
+  const getCssVar = (name: string): string => {
     if (typeof window === "undefined") return "";
     return (
       getComputedStyle(document.documentElement)
         .getPropertyValue(name)
         .trim() || ""
     );
-  }
+  };
 
   const showSnackBarWithExitCode = ({
     exitCode,
@@ -32,4 +32,4 @@ export function useSnackBar() {
   };
 
   return { showSnackBarWithExitCode };
-}
+};

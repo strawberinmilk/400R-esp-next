@@ -14,14 +14,13 @@ const FootLightVolume: React.FC<FootLightProps> = ({ bluetoothHook }) => {
   const { error, sendBLEData } = bluetoothHook;
   const [footLightVolume, setFootLightVolume] = useState(255);
 
-  // status変更時に初期値反映
   useEffect(() => {
     if (bluetoothHook.status && bluetoothHook.status.footLight) {
       setFootLightVolume(bluetoothHook.status.footLight.volume);
     }
   }, [bluetoothHook.status]);
 
-  async function handleSend(footLightVolume: number) {
+  const handleSend = async (footLightVolume: number) => {
     const result = await sendBLEData({
       mode: "footLightVol",
       value: footLightVolume,
@@ -32,7 +31,7 @@ const FootLightVolume: React.FC<FootLightProps> = ({ bluetoothHook }) => {
         message: result.message,
       });
     }
-  }
+  };
 
   return (
     <>

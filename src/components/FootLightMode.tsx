@@ -28,16 +28,16 @@ const FootLightModeComponent: React.FC<FootLightModeProps> = ({
   }, [bluetoothHook.status]);
 
   // モードリストをstatus.constants.footLightから動的生成
-  const modeList = (() => {
+  const modeList = React.useMemo(() => {
     const constants = bluetoothHook.status?.constants?.footLight;
     if (!constants || !constants.modeVal || !constants.modeName) return [];
     return constants.modeVal.map((id: number, idx: number) => ({
       id,
       name: constants.modeName[idx] ?? String(id),
     }));
-  })();
+  }, [bluetoothHook.status]);
 
-  async function handleSend(selectedMode: number) {
+  const handleSend = async (selectedMode: number) => {
     const result = await sendBLEData({
       mode: "footLightMode",
       value: selectedMode,
@@ -48,7 +48,7 @@ const FootLightModeComponent: React.FC<FootLightModeProps> = ({
         message: result.message,
       });
     }
-  }
+  };
 
   return (
     <div className={styles.footLightMode}>

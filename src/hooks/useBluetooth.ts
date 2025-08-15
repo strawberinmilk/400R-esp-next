@@ -16,7 +16,9 @@ export interface UseBluetooth {
   status: StatusType | null;
 }
 
-export const useBluetooth = (isEnabled: boolean = false): UseBluetooth => {
+export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
+  isEnabled = false
+) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<StatusType | null>(null);
@@ -24,7 +26,7 @@ export const useBluetooth = (isEnabled: boolean = false): UseBluetooth => {
   const characteristicRef = useRef<BluetoothRemoteGATTCharacteristic | null>(
     null
   );
-  // isEnabledがtrueの時のみgetStatusを呼ぶ
+
   useEffect(() => {
     if (!isEnabled) return;
     (async () => {
@@ -36,28 +38,30 @@ export const useBluetooth = (isEnabled: boolean = false): UseBluetooth => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEnabled]);
 
-  // デバイス取得関数
-  const getBluetoothCharacteristic = async () => {
-    if (!deviceRef.current || !characteristicRef.current) {
-      const device = await navigator.bluetooth.requestDevice({
-        filters: [{ name: DEVICE_NAME }],
-        optionalServices: [SERVICE_UUID],
-      });
-      deviceRef.current = device;
-      if (!device.gatt) {
-        throw new Error("Bluetooth GATT is not available on this device.");
+  const getBluetoothCharacteristic: () => Promise<BluetoothRemoteGATTCharacteristic | null> =
+    async () => {
+      if (!deviceRef.current || !characteristicRef.current) {
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ name: DEVICE_NAME }],
+          optionalServices: [SERVICE_UUID],
+        });
+        deviceRef.current = device;
+        if (!device.gatt) {
+          throw new Error("Bluetooth GATT is not available on this device.");
+        }
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService(SERVICE_UUID);
+        const characteristic = await service.getCharacteristic(
+          CHARACTERISTIC_UUID
+        );
+        characteristicRef.current = characteristic;
       }
-      const server = await device.gatt.connect();
-      const service = await server.getPrimaryService(SERVICE_UUID);
-      const characteristic = await service.getCharacteristic(
-        CHARACTERISTIC_UUID
-      );
-      characteristicRef.current = characteristic;
-    }
-    return characteristicRef.current;
-  };
+      return characteristicRef.current;
+    };
 
-  const sendBLEData = async (data: object) => {
+  const sendBLEData: (
+    data: object
+  ) => Promise<StatusType | SetResult | null> = async (data) => {
     setIsConnecting(true);
     setError(null);
     try {

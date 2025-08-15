@@ -35,7 +35,7 @@ export class SetResult {
 }
 
 // 型ガード: SetResultかどうか判定
-export function isSetResult(obj: unknown): obj is SetResult {
+export const isSetResult = (obj: unknown): obj is SetResult => {
   if (obj instanceof SetResult) return true;
   if (
     obj &&
@@ -48,4 +48,4 @@ export function isSetResult(obj: unknown): obj is SetResult {
     return true;
   }
   return false;
-}
+};
