@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import React from "react";
+import { GlobalSnackbarProvider } from "@/util/GlobalSnackbar";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -17,16 +19,15 @@ export const metadata: Metadata = {
   description: "400Rのフットライト等の制御を行う",
 };
 
-export default function RootLayout({
+const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}) => {
   return (
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <GlobalSnackbarProvider>{children}</GlobalSnackbarProvider>
       </body>
     </html>
   );
-}
+};
+export default RootLayout;

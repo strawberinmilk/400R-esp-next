@@ -1,42 +1,23 @@
 "use client";
 
 import styles from "./page.module.css";
-import React, { useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
-import FootLight from "../template/FootLight";
+import React from "react";
+import FootLightVolume from "../template/FootLightVolume";
+import FootLightMode from "../template/FootLightMode";
 import { useBluetooth } from "@/hooks/useBluetooth";
 
 export default function Home() {
-  const { isConnecting, error, sendBLEData } = useBluetooth();
-  const [toastOpen, setToastOpen] = useState(false);
-
-  async function handleSend(footLightVolume: number) {
-    const success = await sendBLEData({
-      mode: "footLightVol",
-      value: footLightVolume,
-    });
-    if (success) setToastOpen(true);
-  }
+  const bluetoothHook = useBluetooth();
 
   return (
     <div className={styles.pageWrapper}>
       <main className={styles.mainCenter}>
-        <FootLight
-          isConnecting={isConnecting}
-          error={error}
-          handleSend={handleSend}
-        />
+        <FootLightVolume bluetoothHook={bluetoothHook} />
+        <FootLightMode bluetoothHook={bluetoothHook} />
       </main>
       <footer className={styles.footerFixed}>
         <p>© 2025 400R ESP32 Controller</p>
       </footer>
-      <Snackbar
-        open={toastOpen}
-        autoHideDuration={3000}
-        onClose={() => setToastOpen(false)}
-        message="送信しました"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      />
     </div>
   );
 }

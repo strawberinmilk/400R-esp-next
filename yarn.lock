@@ -16,12 +16,13 @@ __metadata:
     "@types/node": ^20
     "@types/react": ^19
     "@types/react-dom": ^19
+    "@types/web-bluetooth": ^0.0.21
     eslint: ^9
     eslint-config-next: 15.4.6
     next: 15.4.6
     react: 19.1.0
     react-dom: 19.1.0
-    typescript: ^5
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -1036,6 +1037,13 @@ __metadata:
   dependencies:
     csstype: ^3.0.2
   checksum: 1d9c5edb5957e797ad59dc71f92f6faa1f8033007c037f9aeb01161366c92fa257a6ddb267ff33f7787c072c5d568b5f8593868d58f2858f7face6978cd18e00
+  languageName: node
+  linkType: hard
+
+"@types/web-bluetooth@npm:^0.0.21":
+  version: 0.0.21
+  resolution: "@types/web-bluetooth@npm:0.0.21"
+  checksum: 85a957d52263607d26236b1748771fdcfc0791f2c20373370e6c725410067dee6a5ec425b0e25ec85db2908dd59415079070655fd3277841cbbd3a557d1f7777
   languageName: node
   linkType: hard
 
@@ -4131,7 +4139,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5":
+"typescript@npm:latest":
   version: 5.9.2
   resolution: "typescript@npm:5.9.2"
   bin:
@@ -4141,7 +4149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5#~builtin<compat/typescript>":
+"typescript@patch:typescript@latest#~builtin<compat/typescript>":
   version: 5.9.2
   resolution: "typescript@patch:typescript@npm%3A5.9.2#~builtin<compat/typescript>::version=5.9.2&hash=85af82"
   bin:
