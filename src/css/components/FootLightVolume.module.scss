@@ -1,0 +1,16 @@
+// フットライト明度テンプレート用スタイル
+.footLightVolume {
+  margin: 10px 0 24px 0;
+  label {
+    font-weight: bold;
+  }
+  .sliderRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .error {
+    color: red;
+    margin-top: 8px;
+  }
+}

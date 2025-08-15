@@ -1,3 +1,5 @@
+import styles from "@/css/layout.module.scss";
+
 import type { Metadata } from "next";
 import React from "react";
 import { GlobalSnackbarProvider } from "@/util/GlobalSnackbar";
@@ -25,7 +27,14 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   return (
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <GlobalSnackbarProvider>{children}</GlobalSnackbarProvider>
+        <GlobalSnackbarProvider>
+          {children}
+          <footer className={styles.footerFixed}>
+            <span>400R ESP32 controller</span>
+            &nbsp;
+            ©<a href="https://twitter.com/strawberinmilk">rin;</a> 2025
+          </footer>
+        </GlobalSnackbarProvider>
       </body>
     </html>
   );

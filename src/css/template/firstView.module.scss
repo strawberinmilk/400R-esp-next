@@ -1,0 +1,12 @@
+.firstViewWrapper {
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.firstViewButton {
+  margin-top: 32px;
+}

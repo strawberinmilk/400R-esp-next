@@ -2,22 +2,27 @@
 
 import styles from "./page.module.css";
 import React from "react";
-import FootLightVolume from "../template/FootLightVolume";
-import FootLightMode from "../template/FootLightMode";
+
 import { useBluetooth } from "@/hooks/useBluetooth";
+import { useState } from "react";
+import Setting from "@/template/Setting";
+import FirstView from "@/template/FirstView";
 
 export default function Home() {
-  const bluetoothHook = useBluetooth();
+  const [isConnected, setIsConnected] = useState(false);
+  const bluetoothHook = useBluetooth(isConnected);
 
   return (
     <div className={styles.pageWrapper}>
       <main className={styles.mainCenter}>
-        <FootLightVolume bluetoothHook={bluetoothHook} />
-        <FootLightMode bluetoothHook={bluetoothHook} />
+        {!isConnected ? (
+          <FirstView setIsConnected={setIsConnected} />
+        ) : (
+          <>
+            <Setting bluetoothHook={bluetoothHook} />
+          </>
+        )}
       </main>
-      <footer className={styles.footerFixed}>
-        <p>© 2025 400R ESP32 Controller</p>
-      </footer>
     </div>
   );
 }
