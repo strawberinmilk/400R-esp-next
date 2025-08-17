@@ -5,7 +5,7 @@ import React from "react";
 
 import { useBluetooth } from "@/hooks/useBluetooth";
 import { useState } from "react";
-import Setting from "@/template/Setting";
+import { Setting } from "@/template/Setting";
 import { FirstView } from "@/template/FirstView";
 
 export default function Home() {
@@ -28,4 +28,4 @@ export default function Home() {
       </main>
     </div>
   );
-};
+}

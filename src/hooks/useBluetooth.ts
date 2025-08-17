@@ -14,6 +14,7 @@ export interface UseBluetooth {
   error: string | null;
   sendBLEData: (data: object) => Promise<StatusType | SetResult | null>;
   status: StatusType | null;
+  setStatus: React.Dispatch<React.SetStateAction<StatusType | null>>;
 }
 
 export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
@@ -89,5 +90,5 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
     }
   };
 
-  return { isConnecting, error, sendBLEData, status };
+  return { isConnecting, error, sendBLEData, status, setStatus };
 };
