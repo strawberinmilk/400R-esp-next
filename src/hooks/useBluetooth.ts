@@ -27,6 +27,7 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
     null
   );
 
+  // 接続確立時にステータスを取得
   useEffect(() => {
     if (!isEnabled) return;
     (async () => {
@@ -38,6 +39,7 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEnabled]);
 
+  // 接続を確立/接続の実態の取得
   const getBluetoothCharacteristic: () => Promise<BluetoothRemoteGATTCharacteristic | null> =
     async () => {
       if (!deviceRef.current || !characteristicRef.current) {
@@ -59,6 +61,7 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
       return characteristicRef.current;
     };
 
+  // データを送信
   const sendBLEData: (
     data: object
   ) => Promise<StatusType | SetResult | null> = async (data) => {

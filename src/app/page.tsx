@@ -6,7 +6,7 @@ import React from "react";
 import { useBluetooth } from "@/hooks/useBluetooth";
 import { useState } from "react";
 import Setting from "@/template/Setting";
-import FirstView from "@/template/FirstView";
+import { FirstView } from "@/template/FirstView";
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
@@ -16,7 +16,10 @@ export default function Home() {
     <div className={styles.pageWrapper}>
       <main className={styles.mainCenter}>
         {!isConnected ? (
-          <FirstView setIsConnected={setIsConnected} />
+          <FirstView
+            setIsConnected={setIsConnected}
+            bluetoothHook={bluetoothHook}
+          />
         ) : (
           <>
             <Setting bluetoothHook={bluetoothHook} />
@@ -25,4 +28,4 @@ export default function Home() {
       </main>
     </div>
   );
-}
+};
