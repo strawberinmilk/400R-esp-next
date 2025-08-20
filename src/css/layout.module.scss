@@ -1,10 +1,12 @@
-@import "./_constants.scss";
+@use "./_constants.scss" as constants;
+
 .pageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: auto;
 }
+
 .footerFixed {
   position: fixed;
   left: 0;
@@ -12,7 +14,7 @@
   width: 100%;
   text-align: center;
   padding: 16px 0;
-  height: $footer-height;
+  height: constants.$footer-height;
   background: #fff;
   border-top: 1px solid #eee;
   z-index: 100;

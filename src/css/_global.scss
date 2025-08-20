@@ -1,8 +1,8 @@
-@import "./_constants.scss";
+@use "./_constants.scss" as constants;
 
 :root {
-  --primary-color: #{$primary-color};
-  --error-color: #{$error-color};
+  --primary-color: #{constants.$primary-color};
+  --error-color: #{constants.$error-color};
 }
 
 .primaryColor {
