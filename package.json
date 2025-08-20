@@ -8,7 +8,7 @@
     "postbuild": "touch out/.nojekyll",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "yarn build && gh-pages -d out"
+    "deploy": "yarn build && gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
