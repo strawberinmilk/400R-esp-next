@@ -7,14 +7,20 @@ import {
   SERVICE_UUID,
   CHARACTERISTIC_UUID,
 } from "../constants/bluetooth";
-import { SetResult, StatusType } from "../dto/bluetooth";
+import {
+  SetResultResponse,
+  GetStatusResponse,
+  isGetStatusResponse,
+} from "../dto/bluetooth";
 
 export interface UseBluetooth {
   isConnecting: boolean;
   error: string | null;
-  sendBLEData: (data: object) => Promise<StatusType | SetResult | null>;
-  status: StatusType | null;
-  setStatus: React.Dispatch<React.SetStateAction<StatusType | null>>;
+  sendBLEData: (
+    data: object
+  ) => Promise<GetStatusResponse | SetResultResponse | null>;
+  status: GetStatusResponse | null;
+  setStatus: React.Dispatch<React.SetStateAction<GetStatusResponse | null>>;
 }
 
 export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
@@ -22,7 +28,7 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
 ) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [status, setStatus] = useState<StatusType | null>(null);
+  const [status, setStatus] = useState<GetStatusResponse | null>(null);
   const deviceRef = useRef<BluetoothDevice | null>(null);
   const characteristicRef = useRef<BluetoothRemoteGATTCharacteristic | null>(
     null
@@ -33,7 +39,7 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
     if (!isEnabled) return;
     (async () => {
       const res = await sendBLEData({ mode: "getStatus" });
-      if (res && res.type === "status") {
+      if (res && isGetStatusResponse(res)) {
         setStatus(res);
       }
     })();
@@ -65,7 +71,7 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
   // データを送信
   const sendBLEData: (
     data: object
-  ) => Promise<StatusType | SetResult | null> = async (data) => {
+  ) => Promise<GetStatusResponse | SetResultResponse | null> = async (data) => {
     setIsConnecting(true);
     setError(null);
     try {

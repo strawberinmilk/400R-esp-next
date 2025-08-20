@@ -5,7 +5,7 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { UseBluetooth } from "@/hooks/useBluetooth";
-import { isSetResult } from "@/dto/bluetooth";
+import { isSetResultResponse } from "@/dto/bluetooth";
 import { useSnackBar } from "@/hooks/useSnackBar";
 
 interface FootLightModeProps {
@@ -42,7 +42,7 @@ const FootLightModeComponent: React.FC<FootLightModeProps> = ({
       mode: "footLightMode",
       value: selectedMode,
     });
-    if (result && isSetResult(result)) {
+    if (result && isSetResultResponse(result)) {
       showSnackBarWithExitCode({
         exitCode: result.exitCode,
         message: result.message,

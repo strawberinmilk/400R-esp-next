@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import React from "react";
 import { GlobalSnackbarProvider } from "@/util/GlobalSnackbar";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +31,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
           {children}
           <footer className={styles.footerFixed}>
             <span>400R ESP32 controller</span>
-            &nbsp;
-            ©<a href="https://twitter.com/strawberinmilk">rin;</a> 2025
+            &nbsp; ©<a href="https://twitter.com/strawberinmilk">rin;</a> 2025
           </footer>
         </GlobalSnackbarProvider>
       </body>

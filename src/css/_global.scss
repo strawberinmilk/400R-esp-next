@@ -1,0 +1,13 @@
+@import "./_constants.scss";
+
+:root {
+  --primary-color: #{$primary-color};
+  --error-color: #{$error-color};
+}
+
+.primaryColor {
+  color: var(--primary-color) !important;
+}
+.errorColor {
+  color: var(--error-color) !important;
+}

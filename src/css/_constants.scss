@@ -1,15 +1,3 @@
 $primary-color: #4caf50;
 $error-color: #f44336;
 $footer-height: 64px;
-
-:root {
-  --primary-color: $primary-color;
-  --error-color: $error-color;
-}
-
-.primaryColor {
-  color: var(--primary-color) !important;
-}
-.errorColor {
-  color: var(--error-color) !important;
-}

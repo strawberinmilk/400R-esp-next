@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "@/css/components/FootLightVolume.module.scss";
 import Slider from "@mui/material/Slider";
 import { UseBluetooth } from "@/hooks/useBluetooth";
-import { isSetResult } from "@/dto/bluetooth";
+import { isSetResultResponse } from "@/dto/bluetooth";
 import { useSnackBar } from "@/hooks/useSnackBar";
 
 interface FootLightProps {
@@ -25,7 +25,7 @@ const FootLightVolume: React.FC<FootLightProps> = ({ bluetoothHook }) => {
       mode: "footLightVol",
       value: footLightVolume,
     });
-    if (result && isSetResult(result)) {
+    if (result && isSetResultResponse(result)) {
       showSnackBarWithExitCode({
         exitCode: result.exitCode,
         message: result.message,
