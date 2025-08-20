@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 10201",
-    "build": "next build",
+    "build": "next build && yarn postbuild",
+    "postbuild": "touch out/.nojekyll",
     "start": "next start",
     "lint": "next lint",
     "deploy": "yarn build && gh-pages -d out"
