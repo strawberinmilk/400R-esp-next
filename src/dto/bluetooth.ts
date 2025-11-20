@@ -1,24 +1,33 @@
 // BLE通信関連のDTO（型定義）
 
+// PWM LED制御のモード
+export type PwmLedMode = "footLightVol" | "heartLightVol";
+
+interface PwmLedStatusResponse {
+  volume: number;
+  mode: number;
+  isLighting: boolean;
+}
+
+interface PwmLedConstants {
+  min: number;
+  max: number;
+  modeVal: number[];
+  modeName: string[];
+}
+
 // ステータス取得時のレスポンス
 export interface GetStatusResponse {
   type: string;
-  footLight: {
-    volume: number;
-    mode: number;
-    isLighting: boolean;
-  };
+  footLight: PwmLedStatusResponse;
+  heartLight: PwmLedStatusResponse;
   preset: {
     current: string;
     isMatched: boolean;
   };
   constants: {
-    footLight: {
-      min: number;
-      max: number;
-      modeVal: number[];
-      modeName: string[];
-    };
+    footLight: PwmLedConstants;
+    heartLight: PwmLedConstants;
     preset: {
       presetNameList: string[];
       presetValueList: number[];
@@ -56,31 +65,6 @@ export const isGetStatusResponse = (obj: unknown): obj is GetStatusResponse => {
     Array.isArray(constantsPreset.presetValueList)
   );
 };
-
-export interface GetStatusResponse {
-  type: string;
-  footLight: {
-    volume: number;
-    mode: number;
-    isLighting: boolean;
-  };
-  preset: {
-    current: string;
-    isMatched: boolean;
-  };
-  constants: {
-    footLight: {
-      min: number;
-      max: number;
-      modeVal: number[];
-      modeName: string[];
-    };
-    preset: {
-      presetNameList: string[];
-      presetValueList: number[];
-    };
-  };
-}
 
 export class SetResultResponse {
   exitCode: number;

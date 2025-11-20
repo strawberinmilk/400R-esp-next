@@ -8,38 +8,43 @@ import { UseBluetooth } from "@/hooks/useBluetooth";
 import { isSetResultResponse } from "@/dto/bluetooth";
 import { useSnackBar } from "@/hooks/useSnackBar";
 
-interface FootLightModeProps {
+interface PwmLedModeProps {
   bluetoothHook: UseBluetooth;
+  ledType: "footLight" | "heartLight";
+  label: string;
+  mode: string;
 }
 
-const FootLightModeComponent: React.FC<FootLightModeProps> = ({
+const PwmLedMode: React.FC<PwmLedModeProps> = ({
   bluetoothHook,
+  ledType,
+  label,
+  mode: modeCommand,
 }) => {
   const { showSnackBarWithExitCode } = useSnackBar();
   const { isConnecting, sendBLEData } = bluetoothHook;
-  // modeVal/modeNameはstatus.constants.footLightから取得
   const [mode, setMode] = useState<number>(0);
 
   // status変更時に初期値反映
   useEffect(() => {
-    if (bluetoothHook.status && bluetoothHook.status.footLight) {
-      setMode(bluetoothHook.status.footLight.mode);
+    if (bluetoothHook.status && bluetoothHook.status[ledType]) {
+      setMode(bluetoothHook.status[ledType].mode);
     }
-  }, [bluetoothHook.status]);
+  }, [bluetoothHook.status, ledType]);
 
-  // モードリストをstatus.constants.footLightから動的生成
+  // モードリストをstatus.constants[ledType]から動的生成
   const modeList = React.useMemo(() => {
-    const constants = bluetoothHook.status?.constants?.footLight;
+    const constants = bluetoothHook.status?.constants?.[ledType];
     if (!constants || !constants.modeVal || !constants.modeName) return [];
     return constants.modeVal.map((id: number, idx: number) => ({
       id,
       name: constants.modeName[idx] ?? String(id),
     }));
-  }, [bluetoothHook.status]);
+  }, [bluetoothHook.status, ledType]);
 
   const handleSend = async (selectedMode: number) => {
     const result = await sendBLEData({
-      mode: "footLightMode",
+      mode: modeCommand,
       value: selectedMode,
     });
     if (result && isSetResultResponse(result)) {
@@ -53,12 +58,12 @@ const FootLightModeComponent: React.FC<FootLightModeProps> = ({
   return (
     <div className={styles.footLightMode}>
       <FormControl size="small" className={styles.formControl}>
-        <InputLabel id="footLightMode-label">フットライトモード</InputLabel>
+        <InputLabel id={`${ledType}Mode-label`}>{label}</InputLabel>
         <Select
-          labelId="footLightMode-label"
-          id="footLightMode"
+          labelId={`${ledType}Mode-label`}
+          id={`${ledType}Mode`}
           value={mode}
-          label="フットライトモード"
+          label={label}
           onChange={async (e) => {
             const selected = Number(e.target.value);
             setMode(selected);
@@ -73,9 +78,8 @@ const FootLightModeComponent: React.FC<FootLightModeProps> = ({
           ))}
         </Select>
       </FormControl>
-      {/* ボタン削除: 選択時に即送信 */}
     </div>
   );
 };
 
-export default FootLightModeComponent;
+export default PwmLedMode;

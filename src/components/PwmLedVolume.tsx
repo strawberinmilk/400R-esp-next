@@ -5,25 +5,33 @@ import { UseBluetooth } from "@/hooks/useBluetooth";
 import { isSetResultResponse } from "@/dto/bluetooth";
 import { useSnackBar } from "@/hooks/useSnackBar";
 
-interface FootLightProps {
+interface PwmLedVolumeProps {
   bluetoothHook: UseBluetooth;
+  lightType: "footLight" | "heartLight";
+  label: string;
+  mode: string;
 }
 
-const FootLightVolume: React.FC<FootLightProps> = ({ bluetoothHook }) => {
+const PwmLedVolume: React.FC<PwmLedVolumeProps> = ({
+  bluetoothHook,
+  lightType,
+  label,
+  mode,
+}) => {
   const { showSnackBarWithExitCode } = useSnackBar();
   const { error, sendBLEData } = bluetoothHook;
-  const [footLightVolume, setFootLightVolume] = useState(255);
+  const [volume, setVolume] = useState(255);
 
   useEffect(() => {
-    if (bluetoothHook.status && bluetoothHook.status.footLight) {
-      setFootLightVolume(bluetoothHook.status.footLight.volume);
+    if (bluetoothHook.status && bluetoothHook.status[lightType]) {
+      setVolume(bluetoothHook.status[lightType].volume);
     }
-  }, [bluetoothHook.status]);
+  }, [bluetoothHook.status, lightType]);
 
-  const handleSend = async (footLightVolume: number) => {
+  const handleSend = async (volume: number) => {
     const result = await sendBLEData({
-      mode: "footLightVol",
-      value: footLightVolume,
+      mode: mode,
+      value: volume,
     });
     if (result && isSetResultResponse(result)) {
       showSnackBarWithExitCode({
@@ -36,17 +44,17 @@ const FootLightVolume: React.FC<FootLightProps> = ({ bluetoothHook }) => {
   return (
     <>
       <div className={styles.footLightVolume}>
-        <label htmlFor="footLightVolume">
-          フットライト明度: {footLightVolume}
+        <label htmlFor={`${lightType}Volume`}>
+          {label}: {volume}
         </label>
         <div className={styles.sliderRow}>
           <Slider
-            id="footLightVolume"
-            value={footLightVolume}
+            id={`${lightType}Volume`}
+            value={volume}
             min={0}
             max={255}
             step={1}
-            onChange={(_, value) => setFootLightVolume(value as number)}
+            onChange={(_, value) => setVolume(value as number)}
             onChangeCommitted={(_, value) => handleSend(value as number)}
             style={{ width: 200 }}
           />
@@ -57,4 +65,4 @@ const FootLightVolume: React.FC<FootLightProps> = ({ bluetoothHook }) => {
   );
 };
 
-export default FootLightVolume;
+export default PwmLedVolume;
