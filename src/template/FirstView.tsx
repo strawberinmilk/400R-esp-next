@@ -14,10 +14,12 @@ export const FirstView: React.FC<FirstViewProps> = ({
   bluetoothHook,
 }) => {
   const handleConnect = async () => {
-    const status = await bluetoothHook.sendBLEData({ mode: "getStatus" });
-    if (status) {
-      setIsConnected(true);
-    }
+    // const status = await bluetoothHook.sendBLEData({ mode: "getStatus" });
+    // if (status) {
+    //   setIsConnected(true);
+    // }
+    await bluetoothHook.sendBLEData({ mode: "getStatus" });
+    setIsConnected(true);
     // エラーはbluetoothHook.errorで表示可能
   };
 
