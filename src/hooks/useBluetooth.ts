@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 
 import {
   DEVICE_NAME,
@@ -15,6 +15,7 @@ import {
 
 export interface UseBluetooth {
   isConnecting: boolean;
+  isConnected: boolean;
   error: string | null;
   sendBLEData: (
     data: object,
@@ -23,10 +24,9 @@ export interface UseBluetooth {
   setStatus: React.Dispatch<React.SetStateAction<GetStatusResponse | null>>;
 }
 
-export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
-  isEnabled = false,
-) => {
+export const useBluetooth: () => UseBluetooth = () => {
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<GetStatusResponse | null>(null);
   const deviceRef = useRef<BluetoothDevice | null>(null);
@@ -34,19 +34,6 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
     null,
   );
   const bufferRef = useRef<string>("");
-
-  // 接続確立時にステータスを取得
-  useEffect(() => {
-    if (!isEnabled) return;
-    (async () => {
-      await sendBLEData({ mode: "getStatus" });
-      // if (isGetStatusResponse(res)) {
-      // setStatus(res);
-      // }
-      setIsConnecting(true);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEnabled]);
 
   // 接続を確立/接続の実態の取得
   const getBluetoothCharacteristic: () => Promise<BluetoothRemoteGATTCharacteristic | null> =
@@ -71,6 +58,8 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
           handleNotify,
         );
         characteristicRef.current = characteristic;
+
+        setIsConnected(true);
       }
       return characteristicRef.current;
     };
@@ -137,5 +126,5 @@ export const useBluetooth: (isEnabled?: boolean) => UseBluetooth = (
     }
   };
 
-  return { isConnecting, error, sendBLEData, status, setStatus };
+  return { isConnecting, isConnected, error, sendBLEData, status, setStatus };
 };

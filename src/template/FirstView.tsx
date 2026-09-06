@@ -1,26 +1,18 @@
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import style from "@/css/template/firstView.module.scss";
-
 import { UseBluetooth } from "@/hooks/useBluetooth";
 
 interface FirstViewProps {
-  setIsConnected: (isConnected: boolean) => void;
   bluetoothHook: UseBluetooth;
 }
 
-export const FirstView: React.FC<FirstViewProps> = ({
-  setIsConnected,
-  bluetoothHook,
-}) => {
+export const FirstView: React.FC<FirstViewProps> = ({ bluetoothHook }) => {
+  // BLE接続ボタンが押されたときの処理
   const handleConnect = async () => {
-    // const status = await bluetoothHook.sendBLEData({ mode: "getStatus" });
-    // if (status) {
-    //   setIsConnected(true);
-    // }
-    await bluetoothHook.sendBLEData({ mode: "getStatus" });
-    setIsConnected(true);
-    // エラーはbluetoothHook.errorで表示可能
+    await bluetoothHook.sendBLEData({
+      mode: "getStatus",
+    });
   };
 
   return (
